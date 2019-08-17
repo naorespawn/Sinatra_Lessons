@@ -6,6 +6,18 @@ require "rack/csrf"
 use Rack::Session::Cookie, secret: "secret"
 use Rack::Csrf, raise: true
 
+helpers do
+    def csrf_tag
+        Rack::Csrf.csrf_tag(env)
+    end
+    def csrf_token
+        Rack::Csrf.csrf_token(env)
+    end
+    def h(str)
+        Rack::Utils.escape_html(str)
+    end
+end
+
 ActiveRecord::Base.establish_connection(
     adapter: "sqlite3",
     database: "./bbs.db"
